@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -209,6 +210,20 @@ bool squareFit(int* sudoku, int row, int col, int val)
 	{
 		if (otherVals[i] == val) return false;
 	}	
+	return true;
+}
+
+bool valueFits(int* sudoku, int index, int val)
+{
+	int row = index / 9 + 1;
+	int col = index % 9 + 1;
+
+	return (colFit(sudoku,col,val) && rowFit(sudoku,row,val) && squareFit(sudoku,row,col,val));
+}
+
+bool full(int* sudoku)
+{
+	for (int i = 0; i < 81; i++) if (sudoku[i] == 0) return false;
 	return true;
 }
 

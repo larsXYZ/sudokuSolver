@@ -33,9 +33,11 @@ enum subSquare detSubSquare(int row, int col) //determines which subsquare a coo
 		if (col > 6) return DR;
 		return ERROR;
 	} 
+
+	return ERROR;
 }
 
-int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes a 9 element array with the values in the given subsquare 
+void getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes a 9 element array with the values in the given subsquare 
 {
 	switch (square)
 	{
@@ -49,7 +51,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[18];
 			result[7] = s[19];
 			result[8] = s[20];
-			return result;
+			break;
 		
 		case UM :
 			result[0] = s[3];
@@ -61,7 +63,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[21];
 			result[7] = s[22];
 			result[8] = s[23];
-			return result;
+			break;
 
 		case UR :
 			result[0] = s[6];
@@ -73,7 +75,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[24];
 			result[7] = s[25];
 			result[8] = s[26];
-			return result;
+			break;
 
 		case ML :
 			result[0] = s[27];
@@ -85,7 +87,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[45];
 			result[7] = s[46];
 			result[8] = s[47];
-			return result;
+			break;
 
 		case MM :
 			result[0] = s[30];
@@ -97,7 +99,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[48];
 			result[7] = s[49];
 			result[8] = s[50];
-			return result;
+			break;
 
 		case MR :
 			result[0] = s[33];
@@ -109,7 +111,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[51];
 			result[7] = s[52];
 			result[8] = s[53];
-			return result;
+			break;
 
 		case DL :
 			result[0] = s[54];
@@ -121,7 +123,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[72];
 			result[7] = s[73];
 			result[8] = s[74];
-			return result;
+			break;
 
 		case DM :
 			result[0] = s[57];
@@ -133,7 +135,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[75];
 			result[7] = s[76];
 			result[8] = s[77];
-			return result;
+			break;
 
 		case DR :
 			result[0] = s[60];
@@ -145,7 +147,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = s[78];
 			result[7] = s[79];
 			result[8] = s[80];
-			return result;
+			break;
 
 		case ERROR :
 			result[0] = 0;
@@ -157,7 +159,7 @@ int* getValuesInSubSquare(int* s, enum subSquare square, int* result) //returnes
 			result[6] = 0;
 			result[7] = 0;
 			result[8] = 0;
-			return result;
+			break;
 	}
 }
 
@@ -198,10 +200,16 @@ bool colFit(int* sudoku, int col, int value) //returns TRUE if you can place val
 	return true;
 }
 
-bool squareFit(int* sudoku, int row, int col)
+bool squareFit(int* sudoku, int row, int col, int val)
 {
-	
+	int otherVals[9];
+	getValuesInSubSquare(sudoku, detSubSquare(row,col), otherVals);
 
+	for (int i = 0; i < 9; i++)
+	{
+		if (otherVals[i] == val) return false;
+	}	
+	return true;
 }
 
 void loadSudokuFromFile(int* sudoku, const char* filename) //loads sudoku from textfile

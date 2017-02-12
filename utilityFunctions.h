@@ -2,7 +2,39 @@
 #include <stdbool.h>
 #include <string.h>
 
+enum subSquare {UL,UM,UR,ML,MM,MR,DL,DM,DR,ERROR};
+
+
 //NECESSARY FUNCTIONS
+
+enum subSquare detSubSquare(int row, int col) //determines which subsquare a coordinate is in row(1-9) col(1-90)
+{
+	if (row <= 0 || row > 9) return ERROR;	
+
+	if (row <= 3)
+	{
+		if (col <= 3) return UL;
+		if (col > 3 && col <= 6) return UM;
+		if (col > 6) return UR;
+		return ERROR;
+	} 
+	
+	if (row > 3 && row <= 6)
+	{
+		if (col <= 3) return ML;
+		if (col > 3 && col <= 6) return MM;
+		if (col > 6) return MR;
+		return ERROR;
+	} 
+
+	if (row > 6)
+	{
+		if (col <= 3) return DL;
+		if (col > 3 && col <= 6) return DM;
+		if (col > 6) return DR;
+		return ERROR;
+	} 
+}
 
 void printSudoku(int* sudoku) //Simple print
 {
@@ -41,17 +73,26 @@ bool colFit(int* sudoku, int col, int value) //returns TRUE if you can place val
 	return true;
 }
 
-void loadSudokuFromFile(char* filename, int* sudoku)
+bool squareFit(int* sudoku, int row, int col)
 {
-
-
-
-
-
-
-
+	
 
 }
+
+void loadSudokuFromFile(int* sudoku, const char* filename) //loads sudoku from textfile
+{
+	FILE* fp;
+	char charArray[255];
+	fp = fopen(filename, "r");
+	fscanf(fp, "%s", charArray);
+	
+	for (int i = 0; i < 81; i++)
+	{
+		sudoku[i] = (int) charArray[i] - 48;
+	}
+}
+
+
 
 
 
